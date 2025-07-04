@@ -34,9 +34,8 @@ function Form() {
     data.append("selectedFile", formData.selectedFile);
 
     try {
-      const response = await axios.post("http://localhost:5000/posts", data);
+      const response = await axios.post("http://localhost:5000/post/", data);
       console.log("Success:", response.data);
-      // Reset the form
       setFormData({
         creator: "",
         title: "",
