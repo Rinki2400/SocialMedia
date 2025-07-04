@@ -1,0 +1,66 @@
+/* Main Form Container */
+.Form_Container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+.Form_Container h3 {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Form Fields Grouping */
+.form_fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Each Input Field Wrapper */
+.input_field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input Styling */
+.input_field input[type="text"],
+.input_field input[type="file"] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input_field input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button Styling */
+.input_field .btn {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.input_field .Submit_btn{
+    background-color: #007bff;
+}
+.input_field .Cancel_btn{
+    background-color:rgb(240, 44, 44);
+}
