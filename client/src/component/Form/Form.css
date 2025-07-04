@@ -14,7 +14,7 @@
   margin-bottom: 16px;
   text-align: center;
   color: #333;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 /* Form Fields Grouping */
@@ -28,6 +28,8 @@
 .input_field {
   display: flex;
   flex-direction: column;
+  position: relative;
+
 }
 
 /* Input Styling */
@@ -38,6 +40,8 @@
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
+  width: 100%;
+  outline: none;
 }
 
 .input_field input:focus {
@@ -58,9 +62,30 @@
   margin-bottom: 10px;
 }
 
-.input_field .Submit_btn{
-    background-color: #007bff;
+.input_field .Submit_btn {
+  background-color: #007bff;
 }
-.input_field .Cancel_btn{
-    background-color:rgb(240, 44, 44);
+.input_field .Cancel_btn {
+  background-color: rgb(240, 44, 44);
+}
+
+.input_field label {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  color: #999;
+  background: white;
+  padding: 0 4px;
+  transition: 0.2s ease all;
+  pointer-events: none;
+  font-size: 16px;
+}
+
+
+.input_field input:focus + label,
+.input_field input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 10px;
+  font-size: 12px;
+  color: #333;
 }

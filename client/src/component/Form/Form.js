@@ -56,41 +56,54 @@ function Form() {
           <input
             type="text"
             name="creator"
-            placeholder="Creator"
             value={formData.creator}
             onChange={handleChange}
+            placeholder=" "
+            required
           />
+          <label>Creator</label>
         </div>
+
         <div className="input_field">
           <input
             type="text"
             name="title"
-            placeholder="Title"
             value={formData.title}
             onChange={handleChange}
+            placeholder=" "
+            required
           />
+          <label>Title</label>
         </div>
+
         <div className="input_field">
           <input
             type="text"
             name="message"
-            placeholder="Message"
             value={formData.message}
             onChange={handleChange}
+            placeholder=" "
+            required
           />
+          <label>Message</label>
         </div>
+
         <div className="input_field">
           <input
             type="text"
             name="tags"
-            placeholder="Tags"
             value={formData.tags}
             onChange={handleChange}
+            placeholder=" "
+            required
           />
+          <label>Tags</label>
         </div>
+
         <div className="input_field">
           <input type="file" onChange={handleFileChange} />
         </div>
+
         <div className="input_field">
           <button type="submit" className="btn Submit_btn">
             Submit
