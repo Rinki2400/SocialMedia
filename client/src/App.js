@@ -20,7 +20,7 @@ function App() {
           <Form
             currentPost={currentPost}
             setCurrentPost={setCurrentPost}
-            onSuccess={() => setRefresh(!refresh)}
+            setRefresh={setRefresh}
           />
         </div>
       </div>
