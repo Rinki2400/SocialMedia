@@ -14,7 +14,7 @@ function App() {
       </div>
       <div className="main_container">
         <div className="grid-item">
-          <Posts refresh={refresh} setCurrentPost={setCurrentPost} />
+          <Posts refresh={refresh} setCurrentPost={setCurrentPost}setRefresh={setRefresh} />
         </div>
         <div className="grid-item">
           <Form

@@ -18,3 +18,9 @@ export const createPost = (formData) =>
 export const updatePost = (id, formData) =>
   API.put(`/post/${id}`, formData);
 
+// delete a post
+export const deletePost = (id) =>
+  API.delete(`/post/${id}`);
+
+//increase like count by id
+export const likePost = (id) => API.patch(`/post/${id}/like`);

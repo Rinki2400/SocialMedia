@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchPosts, fetchPostsID } from "../../services/api";
+import { fetchPosts, fetchPostsID, deletePost ,likePost  } from "../../services/api";
 import "./Posts.css";
 
-const Posts = ({ refresh, setCurrentPost }) => {
+const Posts = ({ refresh, setCurrentPost, setRefresh }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -67,8 +67,31 @@ const Posts = ({ refresh, setCurrentPost }) => {
             <p className="tags">#{post.tags?.join(", #")}</p>
             <h4 className="message">{post.message}</h4>
             <div className="post-actions">
-              <button className="like-btn">👍 LIKE 0</button>
-              <button className="delete-btn">🗑 DELETE</button>
+              <button
+                className="like-btn"
+                onClick={async () => {
+                  const res = await likePost(post._id);
+                  // Update local state
+                  setPosts((prevPosts) =>
+                    prevPosts.map((p) =>
+                      p._id === post._id ? { ...p, likes: res.data.likes } : p
+                    )
+                  );
+                }}
+              >
+                👍 LIKE {post.likes || 0}
+              </button>
+
+              <button
+                className="delete-btn"
+                onClick={async () => {
+                  console.log("Deleting post ID:", post._id);
+                  await deletePost(post._id);
+                  setRefresh((prev) => !prev);
+                }}
+              >
+                🗑 DELETE
+              </button>
             </div>
           </div>
         </div>

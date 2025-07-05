@@ -87,3 +87,40 @@ exports.updatePostById = async (req, res) => {
     res.status(500).json({ error: "Failed to update post" });
   }
 };
+//delete a post by ID
+// controllers/postController.js
+exports.deleteById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id);
+
+    if (!deletedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json({ message: "Post deleted successfully", deletedPost });
+  } catch (error) {
+    console.error("Delete Error:", error.message);
+    res.status(500).json({ error: "Failed to delete post" });
+  }
+};
+
+// Like a post
+exports.likePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Liking post:", id);
+
+    const post = await Post.findById(id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    post.likeCount += 1;
+    await post.save();
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
