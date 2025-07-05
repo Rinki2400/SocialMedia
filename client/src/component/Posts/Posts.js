@@ -70,7 +70,8 @@ const Posts = ({ refresh, setCurrentPost, setRefresh }) => {
 
           <div className="post-body">
             <p className="tags">#{post.tags?.join(", #")}</p>
-            <h4 className="message">{post.message}</h4>
+            <h4 className="message">{post.title}</h4>
+            <h5 className="message">{post.message}</h5>
             <div className="post-actions">
               <button
                 className="like-btn"

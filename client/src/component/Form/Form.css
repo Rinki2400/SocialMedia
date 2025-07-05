@@ -3,9 +3,10 @@
   max-width: 600px;
   margin: 40px auto;
   padding: 24px;
-  background-color: #ffffff;
+  background-color: #7a7979;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border:  1px solid whitesmoke;
+  box-shadow: 0 7px 12px rgba(203, 201, 201, 0.7);
 }
 
 /* Form Title */
@@ -13,7 +14,7 @@
   font-size: 1.6rem;
   margin-bottom: 16px;
   text-align: center;
-  color: #333;
+  color: #fdfbfb;
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -45,7 +46,7 @@
 }
 
 .input_field input:focus {
-  border-color: #007bff;
+  border-color: #010101;
   outline: none;
 }
 
@@ -73,7 +74,7 @@
   position: absolute;
   top: 16px;
   left: 12px;
-  color: #999;
+  color: #bbbbbb;
   background: white;
   padding: 0 4px;
   transition: 0.2s ease all;
@@ -86,6 +87,6 @@
 .input_field input:not(:placeholder-shown) + label {
   top: -8px;
   left: 10px;
-  font-size: 12px;
-  color: #333;
+  font-size: 14px;
+  color: #0d0d0d;
 }

@@ -1,9 +1,10 @@
 .post-card {
   width: 300px;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border:  1px solid whitesmoke;
+ box-shadow: 0 7px 12px rgba(203, 201, 201, 0.7);
   overflow: hidden;
-  background-color: white;
+  background-color: rgb(44, 44, 44);
   font-family: Arial, sans-serif;
   margin: 1rem auto;
   
@@ -17,6 +18,10 @@
   justify-items: center;
   width: 700px;
  
+}
+.post-card:hover {
+  transform: translateY(-10px); /* subtle lift */
+ box-shadow: 0 7px 12px rgba(203, 201, 201, 0.7);
 }
 
 
@@ -67,11 +72,12 @@
 
 .post-body {
   padding: 1rem;
+  color: azure;
 }
 
 .tags {
   font-size: 12px;
-  color: gray;
+  color: rgb(211, 205, 205);
   margin-bottom: 0.5rem;
 }
 
@@ -91,7 +97,7 @@
   border: none;
   font-size: 14px;
   cursor: pointer;
-  color: #555;
+  color: #c3c1c1;
   display: flex;
   align-items: center;
   gap: 4px;

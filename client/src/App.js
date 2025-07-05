@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "./component/Form/Form";
 import Posts from "./component/Posts/Posts";
+import { FaRegImages } from "react-icons/fa";
 import "./App.css";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <div className="container">
       <div className="app-bar">
         <h2 className="heading">Memories</h2>
+         <FaRegImages className="memoimg" />
       </div>
       <div className="main_container">
         <div className="grid-item">
