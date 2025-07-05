@@ -21,6 +21,6 @@ router.get("/:id", getAllbyId);
 router.post("/", upload.single("selectedFile"), createPosts);
 router.put("/:id", upload.single("selectedFile"), updatePostById);
 router.delete("/:id", deleteById);
-router.patch("/:id/like", likePost);
+router.put("/:id/like", likePost);
 
 module.exports = router;

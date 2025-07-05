@@ -23,4 +23,4 @@ export const deletePost = (id) =>
   API.delete(`/post/${id}`);
 
 //increase like count by id
-export const likePost = (id) => API.patch(`/post/${id}/like`);
+export const likePost = (id) => API.put(`/post/${id}/like`);

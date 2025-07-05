@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchPosts, fetchPostsID, deletePost ,likePost  } from "../../services/api";
+import {
+  fetchPosts,
+  fetchPostsID,
+  deletePost,
+  likePost,
+} from "../../services/api";
 import "./Posts.css";
 
 const Posts = ({ refresh, setCurrentPost, setRefresh }) => {
@@ -71,15 +76,16 @@ const Posts = ({ refresh, setCurrentPost, setRefresh }) => {
                 className="like-btn"
                 onClick={async () => {
                   const res = await likePost(post._id);
-                  // Update local state
                   setPosts((prevPosts) =>
                     prevPosts.map((p) =>
-                      p._id === post._id ? { ...p, likes: res.data.likes } : p
+                      p._id === post._id
+                        ? { ...p, likeCount: res.data.likeCount }
+                        : p
                     )
                   );
                 }}
               >
-                👍 LIKE {post.likes || 0}
+                👍 LIKE {post.likeCount || 0}
               </button>
 
               <button
