@@ -33,7 +33,15 @@ const Posts = ({ refresh }) => {
             }}
           >
             <div className="post-overlay">
-              <h3>{post.creator}</h3>
+              <div className="overlay-header">
+                <h3>{post.creator}</h3>
+                <button
+                  className="menu-btn"
+                  onClick={() => alert("Edit/Delete feature coming soon!")}
+                >
+                  &#8943; {/* Unicode for horizontal three dots */}
+                </button>
+              </div>
               <p>
                 {Math.floor(
                   (Date.now() - new Date(post.createdAt)) /

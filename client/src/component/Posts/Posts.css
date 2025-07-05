@@ -45,6 +45,25 @@
   margin: 5px 0 0;
   font-size: 12px;
 }
+.overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-btn:hover {
+  color: #ccc;
+}
 
 .post-body {
   padding: 1rem;
