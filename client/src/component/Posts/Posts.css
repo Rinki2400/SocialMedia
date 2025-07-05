@@ -6,7 +6,20 @@
   background-color: white;
   font-family: Arial, sans-serif;
   margin: 1rem auto;
+  
+  
 }
+.posts-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  justify-items: center;
+  width: 700px;
+ 
+}
+
+
 
 .post-image {
   height: 180px;
@@ -17,8 +30,7 @@
 
 .post-overlay {
   position: absolute;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   width: 100%;
   padding: 10px;
@@ -69,4 +81,14 @@
 .like-btn:hover,
 .delete-btn:hover {
   color: #000;
+}
+   
+
+
+
+@media (max-width: 768px) {
+  .posts-container {
+    grid-template-columns: 1fr; /* Only 1 card per row */
+    width: 90%; /* Use percentage for fluid layout */
+  }
 }

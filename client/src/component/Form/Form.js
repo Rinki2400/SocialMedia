@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Form.css";
 
-function Form() {
+function Form({ onPostSuccess }) {
   const [formData, setFormData] = useState({
     creator: "",
     title: "",
@@ -25,7 +25,6 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // FormData for file upload
     const data = new FormData();
     data.append("creator", formData.creator);
     data.append("title", formData.title);
@@ -36,6 +35,11 @@ function Form() {
     try {
       const response = await axios.post("http://localhost:5000/post/", data);
       console.log("Success:", response.data);
+
+      // 🔁 Trigger refresh in Posts component
+      if (onPostSuccess) onPostSuccess();
+
+      // Reset form
       setFormData({
         creator: "",
         title: "",
@@ -101,7 +105,7 @@ function Form() {
         </div>
 
         <div className="input_field">
-          <input type="file" onChange={handleFileChange} />
+          <input type="file" onChange={handleFileChange} required />
         </div>
 
         <div className="input_field">

@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchPosts } from "../../services/api"; // adjust path as needed
 import "./Posts.css";
 
-const Posts = () => {
+const Posts = ({ refresh }) => {
   const [posts, setPosts] = useState([]);
 
-  // Fetch posts from backend
   useEffect(() => {
-    const fetchPosts = async () => {
+    const loadPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/post/");
+        const response = await fetchPosts();
         setPosts(response.data);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       }
     };
 
-    fetchPosts();
-  }, []);
+    loadPosts();
+  }, [refresh]);
 
   if (!posts.length) {
     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   }
 
   return (
-    <>
+    <div className="posts-container">
       {posts.map((post) => (
         <div className="post-card" key={post._id}>
           <div
@@ -37,13 +36,14 @@ const Posts = () => {
               <h3>{post.creator}</h3>
               <p>
                 {Math.floor(
-                  (Date.now() - new Date(post.createdAt)) / (1000 * 60 * 60 * 24)
+                  (Date.now() - new Date(post.createdAt)) /
+                    (1000 * 60 * 60 * 24)
                 )}{" "}
                 days ago
               </p>
             </div>
           </div>
-                
+
           <div className="post-body">
             <p className="tags">#{post.tags?.join(", #")}</p>
             <h4 className="message">{post.message}</h4>
@@ -54,7 +54,7 @@ const Posts = () => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
