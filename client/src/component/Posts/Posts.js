@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchPosts } from "../../services/api"; // adjust path as needed
+import { fetchPosts, fetchPostsID } from "../../services/api";
 import "./Posts.css";
 
-const Posts = ({ refresh }) => {
+const Posts = ({ refresh, setCurrentPost }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -17,6 +17,16 @@ const Posts = ({ refresh }) => {
 
     loadPosts();
   }, [refresh]);
+
+  // Edit handler: fetch post by ID and pass it to setCurrentPost
+  const handleEdit = async (id) => {
+    try {
+      const res = await fetchPostsID(id);
+      setCurrentPost(res.data); // This will prefill the form in Form.js
+    } catch (err) {
+      console.error("Failed to fetch post by ID:", err.message);
+    }
+  };
 
   if (!posts.length) {
     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
@@ -37,9 +47,10 @@ const Posts = ({ refresh }) => {
                 <h3>{post.creator}</h3>
                 <button
                   className="menu-btn"
-                  onClick={() => alert("Edit/Delete feature coming soon!")}
+                  onClick={() => handleEdit(post._id)}
+                  title="Edit"
                 >
-                  &#8943; {/* Unicode for horizontal three dots */}
+                  &#8943;
                 </button>
               </div>
               <p>

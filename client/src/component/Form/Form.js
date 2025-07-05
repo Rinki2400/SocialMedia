@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { createPost, updatePost } from "../../services/api";
 import "./Form.css";
 
-function Form({ onPostSuccess }) {
+function Form({ currentPost, setRefresh, setCurrentPost }) {
   const [formData, setFormData] = useState({
     creator: "",
     title: "",
@@ -11,35 +11,46 @@ function Form({ onPostSuccess }) {
     selectedFile: null,
   });
 
-  // Handle change for text inputs
+  useEffect(() => {
+    if (currentPost) {
+       console.log("Form will populate with:", currentPost);
+      setFormData({
+        creator: currentPost.creator || "",
+        title: currentPost.title || "",
+        message: currentPost.message || "",
+        tags: currentPost.tags?.join(",") || "",
+        selectedFile: null, // image file won't be preloaded
+      });
+    }
+  }, [currentPost]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle file input
   const handleFileChange = (e) => {
     setFormData({ ...formData, selectedFile: e.target.files[0] });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = new FormData();
     data.append("creator", formData.creator);
     data.append("title", formData.title);
     data.append("message", formData.message);
     data.append("tags", formData.tags);
-    data.append("selectedFile", formData.selectedFile);
+    if (formData.selectedFile) {
+      data.append("selectedFile", formData.selectedFile);
+    }
 
     try {
-      const response = await axios.post("http://localhost:5000/post/", data);
-      console.log("Success:", response.data);
+      if (currentPost?._id) {
+        await updatePost(currentPost._id, data); 
+      } else {
+        await createPost(data); // ✨ create
+      }
 
-      // 🔁 Trigger refresh in Posts component
-      if (onPostSuccess) onPostSuccess();
-
-      // Reset form
+      setRefresh((prev) => !prev); // reload posts
       setFormData({
         creator: "",
         title: "",
@@ -47,14 +58,15 @@ function Form({ onPostSuccess }) {
         tags: "",
         selectedFile: null,
       });
+      setCurrentPost(null); // reset edit mode
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Submit Error:", error);
     }
   };
 
   return (
     <div className="Form_Container">
-      <h3>Creating a Memory</h3>
+      <h3>{currentPost ? "Editing" : "Creating"} a Memory</h3>
       <form className="form_fields" onSubmit={handleSubmit}>
         <div className="input_field">
           <input
@@ -105,25 +117,26 @@ function Form({ onPostSuccess }) {
         </div>
 
         <div className="input_field">
-          <input type="file" onChange={handleFileChange} required />
+          <input type="file" onChange={handleFileChange} />
         </div>
 
         <div className="input_field">
           <button type="submit" className="btn Submit_btn">
-            Submit
+            {currentPost ? "Update" : "Submit"}
           </button>
           <button
             type="button"
             className="btn Cancel_btn"
-            onClick={() =>
+            onClick={() => {
               setFormData({
                 creator: "",
                 title: "",
                 message: "",
                 tags: "",
                 selectedFile: null,
-              })
-            }
+              });
+              setCurrentPost(null);
+            }}
           >
             Cancel
           </button>
