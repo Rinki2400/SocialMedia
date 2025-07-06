@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import { jwtDecode } from "jwt-decode";
 import { FaLock } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../services/api";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Auth() {
@@ -16,7 +16,7 @@ function Auth() {
     confirmPassword: "",
   });
 
-  const navigate = useNavigate(); // 👈 React Router hook
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,8 +52,24 @@ function Auth() {
           });
 
       const data = response.data;
-      localStorage.setItem("user", JSON.stringify(data));
-          navigate("/"); 
+
+      let userData;
+      if (data.token) {
+        const decoded = jwtDecode(data.token);
+        userData = {
+          name: decoded.name || formData.name,
+          email: decoded.email || formData.email,
+          token: data.token,
+        };
+      } else {
+        userData = {
+          name: data.name || formData.name,
+          email: data.email || formData.email,
+        };
+      }
+
+      localStorage.setItem("user", JSON.stringify(userData));
+      navigate("/");
     } catch (error) {
       console.error("Auth error:", error.response?.data || error.message);
       alert("Authentication failed. Check your credentials.");
@@ -65,7 +81,6 @@ function Auth() {
     setFormData({ name: "", email: "", password: "", confirmPassword: "" });
   };
 
-  // ✅ Google login function
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
@@ -76,8 +91,15 @@ function Auth() {
         });
 
         const userData = res.data;
-        localStorage.setItem("user", JSON.stringify(userData));
-        navigate("/"); 
+
+        localStorage.setItem("user", JSON.stringify({
+          name: userData.name,
+          email: userData.email,
+          googleId: userData.sub,
+          picture: userData.picture,
+        }));
+
+        navigate("/");
       } catch (err) {
         console.error("Google Login Error:", err);
         alert("Google Login Failed.");
@@ -91,7 +113,7 @@ function Auth() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <div className="avatar">
+        <div className="avataricon">
           <FaLock className="lock-icon" />
         </div>
         <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>

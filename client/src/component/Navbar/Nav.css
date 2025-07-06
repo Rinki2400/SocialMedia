@@ -51,25 +51,32 @@
 .avatarIMG {
   width: 43px;
   height: 43px;
- background: linear-gradient(45deg, #4285F4, #34A853);
-  color: #333;
+  background: linear-gradient(45deg, #4285f4, #34a853);
+  color: white;
   font-weight: bold;
   font-size: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(251, 249, 249, 0.9);
+
   transition: background 0.3s, transform 0.3s;
   text-transform: uppercase;
   margin-right: 8px;
 }
 
+.avatarIMG:hover {
+  transform: scale(1.05);
+   box-shadow: 0 6px 16px rgba(150, 150, 150, 0.5);
 
+  background: linear-gradient(45deg, #3367d6, #2e7d32);
+}
 
 .user-name {
   font-size: 16px;
   font-weight: 500;
+  color: #f5f6f8;
 }
 
 .SignIn-button {

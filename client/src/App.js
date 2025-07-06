@@ -1,11 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Nav from "./component/Navbar/Nav";
 import HomeApp from "./component/Home/HomeApp";
 import Auth from "./component/Auth/Auth";
-// import Login from "./component/Auth/Login"; // create this component
-// import NotFound from "./component/NotFound"; // optional: create 404 page
+
+// ✅ Custom Protected Route Component
+const PrivateRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user ? children : <Navigate to="/auth" />;
+};
 
 function App() {
   return (
@@ -13,10 +17,17 @@ function App() {
       <div className="container">
         <Nav />
         <Routes>
-          <Route path="/" element={<HomeApp />} />
-          <Route path="/auth" element={<Auth/>} />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFound />} /> */}
+          <Route path="/auth" element={<Auth />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <HomeApp />
+              </PrivateRoute>
+            }
+          />
+          {/* You can add more private routes here */}
+          {/* <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} /> */}
         </Routes>
       </div>
     </Router>

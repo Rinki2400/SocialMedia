@@ -62,12 +62,30 @@
   transition: background-color 0.3s ease;
   margin-bottom: 10px;
 }
-
 .input_field .Submit_btn {
-  background-color: #007bff;
+  background: linear-gradient(45deg, #007bff, #00c6ff);
+  color: white;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
+.input_field .Submit_btn:hover {
+  background: linear-gradient(45deg, #0056b3, #0096d6);
+  transform: translateY(-1px);
+}
+
 .input_field .Cancel_btn {
-  background-color: rgb(240, 44, 44);
+  background: linear-gradient(45deg, #f89a9b, #f44336);
+  color: white;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(244, 67, 54, 0.4);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.input_field .Cancel_btn:hover {
+  background: linear-gradient(45deg, #961818, #ef6d6d);
+  transform: translateY(-1px);
 }
 
 .input_field label {
