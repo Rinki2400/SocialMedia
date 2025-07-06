@@ -81,9 +81,16 @@
   margin-bottom: 0.5rem;
 }
 
-.message {
+.title {
   font-size: 18px;
   margin: 0 0 1rem 0;
+}
+
+.message{
+  font-size: 13px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
 }
 
 .post-actions {
@@ -105,9 +112,9 @@
 
 .like-btn:hover,
 .delete-btn:hover {
-  color: #000;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
 }
-   
 
 
 

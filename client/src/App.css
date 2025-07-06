@@ -14,39 +14,7 @@ body {
   padding: 0 16px;
 }
 
-/* AppBar styling */
-.app-bar {
-  position: static;
-  background-color: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(203, 201, 201, 0.7);
-  border: 2px solid #bdbdbd;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
 
-/* Typography (h2) */
-.heading {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #fff;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 1px 1px 5px rgb(214, 213, 213);
-  font-family: 'Roboto', sans-serif;
-}
-
-
-.memoimg {
-  font-size: 3rem;
-  color: white;
-  margin-left: 12px;
-}
 
 
 /* Image styling */

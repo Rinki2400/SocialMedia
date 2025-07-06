@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017/SocialMedia'; // Replace with your MongoDB URI
-
+const MONGO_URI = process.env.MONGO_URI; 
 const connectDB = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
