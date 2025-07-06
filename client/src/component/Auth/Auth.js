@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Auth.css";
+import { jwtDecode } from "jwt-decode";
 import { FaLock } from "react-icons/fa";
 import { signIn, signUp } from "../../services/api";
-
+import { GoogleLogin } from "@react-oauth/google";
 function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
@@ -46,24 +47,37 @@ function Auth() {
           });
 
       const data = response.data;
-
-      // ✅ Store user/token in localStorage
       localStorage.setItem("user", JSON.stringify(data));
-
-      alert(`✅ ${isSignUp ? "Signed up" : "Logged in"} successfully!`);
-
-      // TODO: Redirect or refresh UI (e.g., navigate to home)
-      // navigate("/");
-
+      alert(`${isSignUp ? "Signed up" : "Logged in"} successfully!`);
     } catch (error) {
       console.error("Auth error:", error.response?.data || error.message);
-      alert("❌ Authentication failed. Check your credentials.");
+      alert(" Authentication failed. Check your credentials.");
     }
   };
 
   const switchMode = () => {
     setIsSignUp((prev) => !prev);
     setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+  };
+
+  
+  const googleSuccess = async (response) => {
+    try {
+      const decoded = jwtDecode(response.credential);
+      const userData = {
+        name: decoded.name,
+        email: decoded.email,
+        googleId: decoded.sub,
+        picture: decoded.picture,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userData));
+      alert("Google Sign-In Successful!");
+      // navigate("/");
+    } catch (err) {
+      console.error("Google Login Error:", err);
+      alert(" Google Login Failed.");
+    }
   };
 
   return (
@@ -114,6 +128,12 @@ function Auth() {
             {isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
+
+            {/* Google Login Button */}
+        <div className="google-login">
+          <GoogleLogin onSuccess={googleSuccess} onError={() => alert("Login Failed")} />
+        </div> 
+
         <p className="switch-text">
           {isSignUp ? "Already have an account?" : "Don't have an account?"}
           <span className="switch-link" onClick={switchMode}>
