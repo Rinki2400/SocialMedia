@@ -1,11 +1,9 @@
 import React from "react";
 import "./Nav.css";
 import { FaRegImages } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 // Mock user object for demonstration
-const user = {
-  name: "Rinki Sharma",
-}; // Set to null if not logged in
+const user = null // Set to null if not logged in
 
 function Nav() {
   const handleLogout = () => {
@@ -24,13 +22,20 @@ function Nav() {
         {user ? (
           <div className="profile">
             <div className="avatar">{user.name.charAt(0)}</div>
-            <p className="user-name">{user.name}</p>
-            <button className="logout-button" onClick={handleLogout}>
-              Logout
-            </button>
+            {/* <p className="user-name">{user.name}</p> */}
+           <Link to="/auth">
+          <button className="SignIn-button">
+            Sign In
+          </button>
+        </Link>
           </div>
         ) : (
-          <button className="signin-button">Log In</button>
+             <Link to="/auth">
+          <button className="SignIn-button">
+            Log In
+          </button>
+        </Link>
+        
         )}
       </div>
     </div>

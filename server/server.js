@@ -18,5 +18,6 @@ app.use(bodyParser.json({ limit: "30mb", extended: false }));
 
 // Routes
 app.use("/post", require("./routes/postRoutes"));
+app.use("/user", require("./routes/UserRouter"));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
