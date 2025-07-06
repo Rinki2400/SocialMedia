@@ -1,15 +1,15 @@
 import React from "react";
 import "./Nav.css";
 import { FaRegImages } from "react-icons/fa";
-import { Link } from "react-router-dom";
-// Mock user object for demonstration
-const user = null // Set to null if not logged in
+import { Link, useNavigate } from "react-router-dom";
 
 function Nav() {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const handleLogout = () => {
-    console.log("User logged out");
-    // Clear auth tokens or state here
-    // e.g., localStorage.clear(), setUser(null), etc.
+    localStorage.removeItem("user");
+    navigate("/auth");
   };
 
   return (
@@ -21,21 +21,18 @@ function Nav() {
       <div className="toolbar">
         {user ? (
           <div className="profile">
-            <div className="avatar">{user.name.charAt(0)}</div>
-            {/* <p className="user-name">{user.name}</p> */}
-           <Link to="/auth">
-          <button className="SignIn-button">
-            Sign In
-          </button>
-        </Link>
+            <div className="avatarIMG">{user.name?.charAt(0) || user.email?.charAt(0)}</div>
+            <span className="user-name">{user.name || user.email}</span>
+            <button className="SignIn-button" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         ) : (
-             <Link to="/auth">
-          <button className="SignIn-button">
-            Log In
-          </button>
-        </Link>
-        
+          <Link to="/auth">
+            <button className="SignIn-button">
+              Log In
+            </button>
+          </Link>
         )}
       </div>
     </div>

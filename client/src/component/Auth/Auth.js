@@ -3,7 +3,10 @@ import "./Auth.css";
 import { jwtDecode } from "jwt-decode";
 import { FaLock } from "react-icons/fa";
 import { signIn, signUp } from "../../services/api";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
@@ -12,6 +15,8 @@ function Auth() {
     password: "",
     confirmPassword: "",
   });
+
+  const navigate = useNavigate(); // 👈 React Router hook
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,10 +53,10 @@ function Auth() {
 
       const data = response.data;
       localStorage.setItem("user", JSON.stringify(data));
-      alert(`${isSignUp ? "Signed up" : "Logged in"} successfully!`);
+          navigate("/"); 
     } catch (error) {
       console.error("Auth error:", error.response?.data || error.message);
-      alert(" Authentication failed. Check your credentials.");
+      alert("Authentication failed. Check your credentials.");
     }
   };
 
@@ -60,25 +65,28 @@ function Auth() {
     setFormData({ name: "", email: "", password: "", confirmPassword: "" });
   };
 
-  
-  const googleSuccess = async (response) => {
-    try {
-      const decoded = jwtDecode(response.credential);
-      const userData = {
-        name: decoded.name,
-        email: decoded.email,
-        googleId: decoded.sub,
-        picture: decoded.picture,
-      };
+  // ✅ Google login function
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        });
 
-      localStorage.setItem("user", JSON.stringify(userData));
-      alert("Google Sign-In Successful!");
-      // navigate("/");
-    } catch (err) {
-      console.error("Google Login Error:", err);
-      alert(" Google Login Failed.");
-    }
-  };
+        const userData = res.data;
+        localStorage.setItem("user", JSON.stringify(userData));
+        navigate("/"); 
+      } catch (err) {
+        console.error("Google Login Error:", err);
+        alert("Google Login Failed.");
+      }
+    },
+    onError: () => {
+      alert("Google Login Failed.");
+    },
+  });
 
   return (
     <div className="auth-container">
@@ -129,10 +137,9 @@ function Auth() {
           </button>
         </form>
 
-            {/* Google Login Button */}
-        <div className="google-login">
-          <GoogleLogin onSuccess={googleSuccess} onError={() => alert("Login Failed")} />
-        </div> 
+        <button className="google-auth-button" onClick={() => googleLogin()}>
+          Sign In with Google
+        </button>
 
         <p className="switch-text">
           {isSignUp ? "Already have an account?" : "Don't have an account?"}

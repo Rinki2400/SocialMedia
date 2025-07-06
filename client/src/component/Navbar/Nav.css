@@ -48,20 +48,24 @@
   gap: 10px;
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
- background-color: #f5f6f8;
-  box-shadow: 0 4px 12px rgba(251, 249, 249, 0.9);
-  color: rgb(9, 9, 9);
+.avatarIMG {
+  width: 43px;
+  height: 43px;
+ background: linear-gradient(45deg, #4285F4, #34A853);
+  color: #333;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s;
+  text-transform: uppercase;
+  margin-right: 8px;
 }
+
+
 
 .user-name {
   font-size: 16px;
