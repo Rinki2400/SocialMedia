@@ -8,8 +8,30 @@ exports.getPosts = async (req, res) => {
     const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
 
-    const totalPosts = await Post.countDocuments();
-    const posts = await Post.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+    const search = req.query.search || "";
+    const tags = req.query.tags ? req.query.tags.split(",") : [];
+
+    // Create filter conditions
+    let filter = {};
+
+    if (search) {
+      const regex = new RegExp(search, "i"); // case-insensitive search
+      filter.$or = [
+        { title: regex },
+        { message: regex },
+        { creator: regex },
+      ];
+    }
+
+    if (tags.length > 0) {
+      filter.tags = { $in: tags };
+    }
+
+    const totalPosts = await Post.countDocuments(filter);
+    const posts = await Post.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
     res.status(200).json({
       data: posts,
@@ -20,6 +42,7 @@ exports.getPosts = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.createPosts = async (req, res) => {
   try {

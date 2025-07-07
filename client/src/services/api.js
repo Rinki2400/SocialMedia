@@ -6,8 +6,10 @@ const API = axios.create({
 });
 
 // Get all posts
-export const fetchPosts = (page = 1, limit = 6) =>
-  API.get(`/post?page=${page}&limit=${limit}`);
+// src/services/api.js
+export const fetchPosts = (page = 1, limit = 6, search = "", tags = "") =>
+  API.get(`/post?page=${page}&limit=${limit}&search=${search}&tags=${tags}`);
+
 
 export const fetchPostsID = (id) => API.get(`/post/${id}`);
 

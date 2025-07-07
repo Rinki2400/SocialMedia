@@ -2,27 +2,34 @@ import React, { useEffect, useState } from "react";
 import { createPost, updatePost } from "../../services/api";
 import "./Form.css";
 
-function Form({ currentPost, setRefresh, setCurrentPost }) {
-  const [formData, setFormData] = useState({
+function Form({ currentPost, setRefresh, setCurrentPost, onSearch }) {
+  const initialState = {
     creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: null,
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
     if (currentPost) {
-       console.log("Form will populate with:", currentPost);
       setFormData({
         creator: currentPost.creator || "",
         title: currentPost.title || "",
         message: currentPost.message || "",
         tags: currentPost.tags?.join(",") || "",
-        selectedFile: null, // image file won't be preloaded
+        selectedFile: null,
       });
     }
   }, [currentPost]);
+
+  const resetForm = () => {
+    setFormData(initialState);
+    setCurrentPost(null);
+    document.querySelector('input[type="file"]').value = null;
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,104 +52,77 @@ function Form({ currentPost, setRefresh, setCurrentPost }) {
 
     try {
       if (currentPost?._id) {
-        await updatePost(currentPost._id, data); 
+        await updatePost(currentPost._id, data);
       } else {
-        await createPost(data); // ✨ create
+        await createPost(data);
       }
 
-      setRefresh((prev) => !prev); // reload posts
-      setFormData({
-        creator: "",
-        title: "",
-        message: "",
-        tags: "",
-        selectedFile: null,
-      });
-      setCurrentPost(null); // reset edit mode
+      setRefresh((prev) => !prev);
+      resetForm();
     } catch (error) {
       console.error("Submit Error:", error);
     }
   };
 
   return (
-    <div className="Form_Container">
-      <h3>{currentPost ? "Editing" : "Creating"} a Memory</h3>
-      <form className="form_fields" onSubmit={handleSubmit}>
-        <div className="input_field">
-          <input
-            type="text"
-            name="creator"
-            value={formData.creator}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label>Creator</label>
-        </div>
+    <>
+      {/* 🔍 Live Search Inputs */}
+      <div className="Form_Container">
+        <form className="form_fields" autoComplete="off">
+          <div className="input_field inputSpace">
+            <input
+              type="text"
+              name="searchMemory"
+              placeholder=" "
+              onChange={(e) => onSearch?.("title", e.target.value)}
+            />
+            <label>Search Memory</label>
+          </div>
+          <div className="input_field inputSpace">
+            <input
+              type="text"
+              name="searchTags"
+              placeholder=" "
+              onChange={(e) => onSearch?.("tags", e.target.value)}
+            />
+            <label>Tags</label>
+          </div>
+        </form>
+      </div>
 
-        <div className="input_field">
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label>Title</label>
-        </div>
+      {/* 📝 Create/Edit Form */}
+      <div className="Form_Container">
+        <h3>{currentPost ? "Editing" : "Creating"} a Memory</h3>
+        <form className="form_fields" onSubmit={handleSubmit} autoComplete="off">
+          {["creator", "title", "message", "tags"].map((field) => (
+            <div className="input_field" key={field}>
+              <input
+                type="text"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+            </div>
+          ))}
 
-        <div className="input_field">
-          <input
-            type="text"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label>Message</label>
-        </div>
+          <div className="input_field">
+            <input type="file" onChange={handleFileChange} />
+          </div>
 
-        <div className="input_field">
-          <input
-            type="text"
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label>Tags</label>
-        </div>
-
-        <div className="input_field">
-          <input type="file" onChange={handleFileChange} />
-        </div>
-
-        <div className="input_field">
-          <button type="submit" className="btn Submit_btn">
-            {currentPost ? "Update" : "Submit"}
-          </button>
-          <button
-            type="button"
-            className="btn Cancel_btn"
-            onClick={() => {
-              setFormData({
-                creator: "",
-                title: "",
-                message: "",
-                tags: "",
-                selectedFile: null,
-              });
-              setCurrentPost(null);
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="input_field">
+            <button type="submit" className="btn Submit_btn">
+              {currentPost ? "Update" : "Submit"}
+            </button>
+            <button type="button" className="btn Cancel_btn" onClick={resetForm}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 
