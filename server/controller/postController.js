@@ -4,8 +4,18 @@ const mongoose = require("mongoose");
 // Get all posts
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    const totalPosts = await Post.countDocuments();
+    const posts = await Post.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+
+    res.status(200).json({
+      data: posts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / limit),
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

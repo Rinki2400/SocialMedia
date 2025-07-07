@@ -1,112 +1,127 @@
+/* Fullscreen container */
 .auth-container {
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
   
 }
 
+/* Glass-like card with gradient border */
 .auth-card {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 350px;
+  background: rgba(255, 255, 255, 0.1); /* Glass effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px 32px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+
+  /* Gradient border using pseudo element */
+  position: relative;
+  z-index: 1;
+}
+.auth-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff, #ff416c, #ff4b2b);
+  background-size: 300% 300%;
+  animation: gradientBorder 6s ease infinite;
 }
 
+/* Animated gradient border */
+@keyframes gradientBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Lock icon */
 .avataricon {
-  width: 60px;
-  height: 60px;
- background: linear-gradient(45deg, #4285F4, #34A853);
-  border-radius: 50%;
-  margin: 0 auto 15px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
 }
-
 .lock-icon {
+  font-size: 2rem;
   color: white;
-  font-size: 24px;
 }
 
+/* Heading */
+.auth-card h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 24px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Input styles */
 .auth-input {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.auth-input:focus {
-  border-color: #101010; /* Green border on focus */
-  box-shadow: 0 0 5px rgba(231, 237, 231, 0.5); /* Subtle glow effect */
-  background-color: #f9fff9; /* Optional: very light green */
-}
-
-
-.auth-button {
-  width: 100%;
-  padding: 10px;
- background: linear-gradient(45deg, #4285F4, #34A853);
-  color: rgb(26, 26, 26);
+  padding: 12px 14px;
+  margin-bottom: 16px;
   border: none;
-  border-radius: 4px;
-  font-size: 15px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: background 0.3s ease;
+}
+.auth-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+.auth-input:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Auth buttons */
+.auth-button, .google-auth-button {
+  width: 100%;
+  padding: 12px;
   font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+.auth-button {
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  color: white;
 }
 .auth-button:hover {
-  background: linear-gradient(45deg, #3367d6, #2e7d32);
-  color: white;
-  box-shadow: 0 4px 10px rgba(67, 160, 71, 0.4);
-}
-
-.switch-text {
-  margin-top: 10px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #555;
-}
-
-.switch-link {
-  color: #e53935; 
-  font-weight: bold;
-  cursor: pointer;
-  margin-left: 5px;
-  transition: color 0.3s ease;
-}
-
-.switch-link:hover {
-  color: #b71c1c; 
-}
-
-.google-login {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  
+  background: linear-gradient(90deg, #0052cc, #00aaff);
 }
 .google-auth-button {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(45deg, #4285F4, #34A853);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  color: #333;
 }
 .google-auth-button:hover {
-  background: linear-gradient(45deg, #3367d6, #2e7d32);
-  box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4);
+  background: #e0e0e0;
+}
+
+/* Switch text */
+.switch-text {
+  margin-top: 20px;
+  color: white;
+  text-align: center;
+}
+.switch-link {
+  color: #00c6ff;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 6px;
+}
+.switch-link:hover {
+  text-decoration: underline;
 }

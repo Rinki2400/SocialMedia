@@ -1,13 +1,14 @@
 /* Main Form Container */
 .Form_Container {
-  max-width: 600px;
   margin: 40px auto;
   padding: 24px;
+  max-width: 100%;
   background-color: #7a7979;
   border-radius: 8px;
-  border:  1px solid whitesmoke;
+  border: 1px solid whitesmoke;
   box-shadow: 0 7px 12px rgba(203, 201, 201, 0.7);
 }
+
 
 /* Form Title */
 .Form_Container h3 {
@@ -108,3 +109,4 @@
   font-size: 14px;
   color: #0d0d0d;
 }
+

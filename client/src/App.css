@@ -3,31 +3,30 @@
   margin: 0;
   box-sizing: border-box;
 }
-body {
-  background: linear-gradient(to right, #000000, #434343, #a5a4a4);
- 
 
+body {
+  background: linear-gradient(to right, #0f0f0f, #2a2a2a, #4e4e4e); /* smooth dark gradient */
   font-family: "Segoe UI", sans-serif;
+  color: white; /* white text for better contrast */
+  min-height: 100vh;
+  overflow-x: hidden;
 }
+
 /* Container styling */
 .container {
-  max-width: 1200px; /* 'lg' size from MUI */
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
-
-
-
-/* Image styling */
-
+/* Main layout wrapper */
 .main_container {
-  max-width: 1280px;
+  max-width: 1380px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 40px 16px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: flex-start; /* changed to better align cards */
   gap: 24px;
 }

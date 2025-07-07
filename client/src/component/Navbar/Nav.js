@@ -29,9 +29,7 @@ function Nav() {
           </div>
         ) : (
           <Link to="/auth">
-            <button className="SignIn-button">
-              Log In
-            </button>
+           
           </Link>
         )}
       </div>

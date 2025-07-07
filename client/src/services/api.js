@@ -6,7 +6,9 @@ const API = axios.create({
 });
 
 // Get all posts
-export const fetchPosts = () => API.get("/post/");
+export const fetchPosts = (page = 1, limit = 6) =>
+  API.get(`/post?page=${page}&limit=${limit}`);
+
 export const fetchPostsID = (id) => API.get(`/post/${id}`);
 
 // Create a new post
@@ -23,3 +25,4 @@ export const likePost = (id) => API.put(`/post/${id}/like`);
 
 export const signIn = (formData) => API.post("/user/login", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
+
