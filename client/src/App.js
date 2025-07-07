@@ -4,6 +4,7 @@ import "./App.css";
 import Nav from "./component/Navbar/Nav";
 import HomeApp from "./component/Home/HomeApp";
 import Auth from "./component/Auth/Auth";
+import PostDetail from "./component/PostDetail/PostDetail";
 
 // ✅ Custom Protected Route Component
 const PrivateRoute = ({ children }) => {
@@ -23,6 +24,14 @@ function App() {
             element={
               <PrivateRoute>
                 <HomeApp />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/PostDetail/:id"
+            element={
+              <PrivateRoute>
+                <PostDetail/>
               </PrivateRoute>
             }
           />

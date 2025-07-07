@@ -9,28 +9,27 @@ function HomeApp() {
   const [currentPost, setCurrentPost] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch posts from backend
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const res = await fetchPosts();
+        const res = await fetchPosts(page, 6);
         setPosts(res.data.data);
+        setTotalPages(res.data.totalPages || 1);
       } catch (err) {
         console.error("Failed to fetch posts", err);
       }
     };
-
     getPosts();
-  }, [refresh]);
+  }, [refresh, page]);
 
-  // Filter posts by title (live search)
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Function passed to Form to handle search
-  const handleSearch = (term) => {
+  const handleSearch = (_, term) => {
     setSearchTerm(term);
   };
 
@@ -41,6 +40,9 @@ function HomeApp() {
           posts={filteredPosts}
           setCurrentPost={setCurrentPost}
           setRefresh={setRefresh}
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
         />
       </div>
       <div className="grid-item">
@@ -48,7 +50,7 @@ function HomeApp() {
           currentPost={currentPost}
           setCurrentPost={setCurrentPost}
           setRefresh={setRefresh}
-          onSearch={handleSearch} // ✅ pass onSearch
+          onSearch={handleSearch}
         />
       </div>
     </div>
