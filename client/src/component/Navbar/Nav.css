@@ -98,3 +98,40 @@
   background-color: #e0e0e0;
   box-shadow: 0 6px 16px rgba(150, 150, 150, 0.5);
 }
+.popup {
+  position: absolute;
+  top: 81px;
+  right: 15px;
+  color: black;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  width: 250px;
+}
+
+.popup-content h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.popup-content p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.close-btn {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+}

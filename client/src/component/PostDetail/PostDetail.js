@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPostsID, comentcreate, deleteComment } from "../../services/api";
 import "../PostDetail/PostDetails.css";
+import { FaEdit, FaTrash, FaSave, FaTimes } from "react-icons/fa";
+
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -94,9 +96,7 @@ const PostDetail = () => {
           </p>
 
           <hr />
-          <p>Realtime Chat</p>
-          <hr />
-
+        
           <div className="comments-list">
             <h4>💬 Comments</h4>
             {post.comments?.length > 0 ? (
@@ -108,8 +108,8 @@ const PostDetail = () => {
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
                       />
-                      <button onClick={handleSaveEdit}>💾</button>
-                      <button onClick={() => setEditIndex(null)}>❌</button>
+                      <button onClick={handleSaveEdit}><FaSave/></button>
+                      <button onClick={() => setEditIndex(null)}><FaTimes/></button>
                     </>
                   ) : (
                     <>
@@ -118,10 +118,10 @@ const PostDetail = () => {
                       </span>
                       <div className="comment-actions">
                         <button onClick={() => handleEditComment(index)}>
-                          ✏️
+                          <FaEdit/>
                         </button>
                         <button onClick={() => handleDeleteComment(c._id)}>
-                          🗑️
+                          <FaTrash/>
                         </button>
                       </div>
                     </>
