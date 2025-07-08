@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPostsID } from "../../services/api";
+import { fetchPostsID, comentcreate, deleteComment } from "../../services/api";
 import "../PostDetail/PostDetails.css";
 
 const PostDetail = () => {
@@ -10,6 +10,9 @@ const PostDetail = () => {
   const [newComment, setNewComment] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState("");
+
+  // Get current user info from localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const loadPost = async () => {
@@ -23,29 +26,38 @@ const PostDetail = () => {
     loadPost();
   }, [id]);
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
-    const updatedPost = {
-      ...post,
-      comments: [...(post.comments || []), newComment],
-    };
-    setPost(updatedPost);
-    setNewComment("");
+    try {
+      const commentData = {
+        text: newComment,
+        creator: user?.name || "Anonymous",
+      };
+      const res = await comentcreate(id, commentData);
+      setPost({ ...post, comments: res.data });
+      setNewComment("");
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
   };
 
-  const handleDeleteComment = (index) => {
-    const updatedComments = post.comments.filter((_, i) => i !== index);
-    setPost({ ...post, comments: updatedComments });
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const updated = await deleteComment(id, commentId);
+      setPost({ ...post, comments: updated.data });
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+    }
   };
 
   const handleEditComment = (index) => {
     setEditIndex(index);
-    setEditText(post.comments[index]);
+    setEditText(post.comments[index].text);
   };
 
   const handleSaveEdit = () => {
     const updatedComments = [...post.comments];
-    updatedComments[editIndex] = editText;
+    updatedComments[editIndex].text = editText;
     setPost({ ...post, comments: updatedComments });
     setEditIndex(null);
     setEditText("");
@@ -71,19 +83,25 @@ const PostDetail = () => {
 
       <div className="details_comp">
         <div className="details">
-          <p><span>By:</span> {post.creator}</p>
-          <p><span>Message:</span> {post.message}</p>
-          <p><span>Tags:</span> {post.tags?.join(" ,#")}</p>
+          <p>
+            <span>By:</span> {post.creator}
+          </p>
+          <p>
+            <span>Message:</span> {post.message}
+          </p>
+          <p>
+            <span>Tags:</span> {post.tags?.join(" ,#")}
+          </p>
 
           <hr />
-         <p> Realtime Chat</p>
+          <p>Realtime Chat</p>
           <hr />
 
           <div className="comments-list">
             <h4>💬 Comments</h4>
             {post.comments?.length > 0 ? (
               post.comments.map((c, index) => (
-                <div key={index} className="comment-item">
+                <div key={c._id || index} className="comment-item">
                   {editIndex === index ? (
                     <>
                       <input
@@ -95,10 +113,16 @@ const PostDetail = () => {
                     </>
                   ) : (
                     <>
-                      <span>{c}</span>
+                      <span>
+                        <strong>{c.creator}:</strong> {c.text}
+                      </span>
                       <div className="comment-actions">
-                        <button onClick={() => handleEditComment(index)}>✏️</button>
-                        <button onClick={() => handleDeleteComment(index)}>🗑️</button>
+                        <button onClick={() => handleEditComment(index)}>
+                          ✏️
+                        </button>
+                        <button onClick={() => handleDeleteComment(c._id)}>
+                          🗑️
+                        </button>
                       </div>
                     </>
                   )}
@@ -121,7 +145,10 @@ const PostDetail = () => {
         </div>
 
         <div className="post_img">
-          <img src={`data:image/jpeg;base64,${post.selectedFile}`} alt="Post" />
+          <img
+            src={`data:image/jpeg;base64,${post.selectedFile}`}
+            alt="Post"
+          />
         </div>
       </div>
     </div>

@@ -7,6 +7,8 @@ const {
   updatePostById,
   deleteById,
   likePost,
+  createComment,
+  deleteComment
 } = require("../controller/postController");
 
 const router = express.Router();
@@ -22,5 +24,8 @@ router.post("/", upload.single("selectedFile"), createPosts);
 router.put("/:id", upload.single("selectedFile"), updatePostById);
 router.delete("/:id", deleteById);
 router.put("/:id/like", likePost);
+router.put("/:id/comment", createComment);
+router.delete('/:postId/comments/:commentId', deleteComment);
+
 
 module.exports = router;

@@ -10,7 +10,6 @@ const API = axios.create({
 export const fetchPosts = (page = 1, limit = 6, search = "", tags = "") =>
   API.get(`/post?page=${page}&limit=${limit}&search=${search}&tags=${tags}`);
 
-
 export const fetchPostsID = (id) => API.get(`/post/${id}`);
 
 // Create a new post
@@ -28,3 +27,8 @@ export const likePost = (id) => API.put(`/post/${id}/like`);
 export const signIn = (formData) => API.post("/user/login", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
 
+export const comentcreate = (id, formData) =>
+  API.put(`/post/${id}/comment`, formData);
+
+export const deleteComment = (postId, commentId) =>
+  API.delete(`/post/${postId}/comments/${commentId}`);

@@ -1,18 +1,18 @@
 .post-card {
-  width: 400px;
+  width: 280px;
   border-radius: 15px;
   border:  1px solid whitesmoke;
  box-shadow: 0 7px 12px rgba(203, 201, 201, 0.7);
   overflow: hidden;
   background-color: rgb(44, 44, 44);
   font-family: Arial, sans-serif;
-  margin: 1rem auto;
+  margin: 0.7rem auto;
   
   
 }
 .posts-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   padding: 1rem;
   justify-items: center;
